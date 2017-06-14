@@ -1,7 +1,7 @@
 window.onload = function(){
   var index = -1;
   var width = 800;
-  var height = 450;
+  var height = 400;
   var margin = 100;
   var dataset =
     [
@@ -179,15 +179,13 @@ window.onload = function(){
   var graphData = [100,400,300,200];
   var graphHeight = 30;
   var margin = 10;
-  var graph = null;
+  var graph = d3.select("svg").append("g")
+    .selectAll("rect")
+    .data(graphData)
+    .enter()
+    .append("rect");
   function drowGraph(){
-    graph = d3.select("svg")
-      .append("g");
-    graph.selectAll("rect")
-      .data(graphData)
-      .enter()
-      .append("rect")
-      .attr({
+      graph.attr({
         width:0
       })
       .transition()
@@ -199,12 +197,14 @@ window.onload = function(){
         height: graphHeight,
         fill:"green"
       })
-    return graph
   }
   function deleteGraph(){
     if(graph !== null){
-      graph.remove();
-      graph = null;
+      graph.transition()
+        .duration(1000)
+        .attr({
+          width:0
+        })
     }
   }
 }
