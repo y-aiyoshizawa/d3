@@ -1,5 +1,5 @@
 window.onload = function(){
-  var index = -1;
+
   var width = 800;
   var height = 400;
   var margin = 100;
@@ -82,6 +82,18 @@ window.onload = function(){
         "y":Math.random() * (height - (height / 10) * 2) + (height / 10),
         "page":[
           {
+            "str":"この資料もD3！",
+            "size":40,
+            "x":200,
+            "y":200
+          }
+        ]
+      },
+      {
+        "x":Math.random() * (width - (width / 10) * 2) + (width / 10),
+        "y":Math.random() * (height - (height / 10) * 2) + (height / 10),
+        "page":[
+          {
             "str":"ご清聴ありがとうございました",
             "size":40,
             "x":150,
@@ -90,6 +102,7 @@ window.onload = function(){
         ]
       }
     ];
+  var fontsize = "4px";
   var screen = d3.select("svg").append("g").selectAll("g").data(dataset);
   var page = screen.enter().append("g");
   var texts = page.attr("transform",function(d){return "translate("+d.x+","+d.y+")";})
@@ -100,11 +113,11 @@ window.onload = function(){
   texts.attr({
       x:function(d){return d.x / 10;},
       y:function(d){return d.y / 10;},
-      style:"font-size:5"
+      style:"font-size:"+fontsize
     })
     .text(function(d){return d.str});
 
-
+  var index = -1;
   $(window).keydown(function(e){
     var okKey = false;
     switch(e.keyCode){
@@ -150,13 +163,13 @@ window.onload = function(){
 
     onePage.selectAll("text")
       .data(dataset[index + offset].page)
-      .attr("style","font-size:5")
+      .attr("style","font-size:"+fontsize)
       .transition()
       .duration(1000)
       .attr({
         x:function(d){return d.x;},
         y:function(d){return d.y;},
-        style:function(d){return "font-size:"+d.size}
+        style:function(d){return "font-size:"+d.size+"px"}
       });
   }
   //縮小
@@ -165,7 +178,9 @@ window.onload = function(){
     var onePage = d3.select(page[0][index + offset]).data([dataset[index + offset]]);
     onePage.transition()
       .duration(1000)
-      .attr("transform",function(d){return "translate("+d.x+","+d.y+")";});
+      .attr({
+        transform:function(d){return "translate("+d.x+","+d.y+")";},
+      });
     onePage.selectAll("text")
       .data(dataset[index + offset].page)
       .transition()
@@ -173,7 +188,7 @@ window.onload = function(){
       .attr({
         x:function(d){return d.x / 10;},
         y:function(d){return d.y / 10;},
-        style:function(d){return "font-size:5"}
+        style:"font-size:"+fontsize
       });
   }
   var graphData = [100,400,300,200];
