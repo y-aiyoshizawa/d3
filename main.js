@@ -12,7 +12,7 @@ window.onload = function(){
           {
             "str":"応用言語成果発表",
             "size":40,
-            "x":width / 2 + 20,
+            "x":300,
             "y":100
           },
           {
@@ -34,15 +34,15 @@ window.onload = function(){
         "y":Math.random() * (height - (height / 10) * 2) + (height / 10),
         "page":[
           {
-            "str":"タイトル",
+            "str":"テーマは",
             "size":40,
-            "x":width / 2 + 20,
+            "x":300,
             "y":100
           },
           {
-            "str":"タイトル2",
-            "size":20,
-            "x":400,
+            "str":"D3を使った３分間Cooking！",
+            "size":40,
+            "x":150,
             "y":200
           }
         ]
@@ -52,15 +52,15 @@ window.onload = function(){
         "y":Math.random() * (height - (height / 10) * 2) + (height / 10),
         "page":[
           {
-            "str":"タイトル3",
+            "str":"発表の目的は",
             "size":40,
-            "x":width / 2 + 20,
+            "x":250,
             "y":100
           },
           {
-            "str":"タイトル2",
-            "size":20,
-            "x":400,
+            "str":"D3の雰囲気を感じてもらう",
+            "size":40,
+            "x":150,
             "y":200
           }
         ]
@@ -87,12 +87,19 @@ window.onload = function(){
       case 37:
         if(index <= 0)break;
         index--;
+        deleteGraph();
         pageEnlargement(0);
         pageShrinking(1);
         break;
       //→
       case 39:
-        if(index > dataset.length - 2)break;
+        if(index > dataset.length - 2){
+          pageShrinking(0);
+          if(graph === null){
+            graph = drowGraph();
+          }
+          break;
+        }
         index++;
         pageEnlargement(0);
         pageShrinking(-1);
@@ -122,7 +129,7 @@ window.onload = function(){
       .transition()
       .duration(1000)
       .attr({
-        x:function(d){return d.x - d.size * d.str.length;},
+        x:function(d){return d.x;},
         y:function(d){return d.y;},
         style:function(d){return "font-size:"+d.size}
       });
@@ -143,5 +150,36 @@ window.onload = function(){
         y:function(d){return d.y / 10;},
         style:function(d){return "font-size:5"}
       });
+  }
+  var graphData = [100,400,300,200];
+  var graphHeight = 30;
+  var margin = 10;
+  var graph = null;
+  function drowGraph(){
+    graph = d3.select("svg")
+      .append("g");
+    graph.selectAll("rect")
+      .data(graphData)
+      .enter()
+      .append("rect")
+      .attr({
+        width:0
+      })
+      .transition()
+      .duration(1000)
+      .attr({
+        x:margin,
+        y:function(d,i){return (graphHeight + 5) * i + margin},
+        width:function(d){return d},
+        height: graphHeight,
+        fill:"green"
+      })
+    return graph
+  }
+  function deleteGraph(){
+    if(graph !== null){
+      graph.remove();
+      graph = null;
+    }
   }
 }
