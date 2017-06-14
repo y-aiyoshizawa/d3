@@ -106,6 +106,7 @@ window.onload = function(){
 
 
   $(window).keydown(function(e){
+    var okKey = false;
     switch(e.keyCode){
       //←
       case 37:
@@ -113,6 +114,7 @@ window.onload = function(){
         index--;
         pageEnlargement(0);
         pageShrinking(1);
+        okKey = true;
         break;
       //→
       case 39:
@@ -120,9 +122,10 @@ window.onload = function(){
         index++;
         pageEnlargement(0);
         pageShrinking(-1);
+        okKey = true;
         break;
     }
-    if(index === 3){
+    if(okKey &&index === 3){
       drowGraph();
     }else{
       deleteGraph()
