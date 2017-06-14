@@ -1,6 +1,6 @@
 window.onload = function(){
   var height = 10;
-  var dataset = [80,100,40,10];
+  var dataset = [240,300,120,30];
   var colors = ["red","green","blue","orange"];
   d3.select("body")
     .append("svg")
@@ -14,20 +14,18 @@ window.onload = function(){
     .enter()
     .append("rect")
     .attr({
-      x:110,
-      width:0
-    })
-    .transition()
-    .duration(1000)
-    .delay(function(d,i){
-      return i * 300;
-    })
-    .attr({
-      transform:"translate(100,100)",
-      x:10,
+      x:0,
       y:function(d,i){return (height + 5) * i},
-      width:function(d){return d * 3},
+      width:function(d){return d},
       height:height,
-      fill:function(d,i){return colors[i]}
     });
+    // .transition()
+    // .duration(1000)
+    // .delay(function(d,i){
+    //   return i * 300;
+    // })
+    // .attr({
+    //   width:function(d){return d},
+    //   fill:function(d,i){return colors[i]}
+    // });
 };
