@@ -64,6 +64,30 @@ window.onload = function(){
             "y":200
           }
         ]
+      },
+      {
+        "x":Math.random() * (width - (width / 10) * 2) + (width / 10),
+        "y":Math.random() * (height - (height / 10) * 2) + (height / 10),
+        "page":[
+          {
+            "str":"↑このグラフを作る",
+            "size":40,
+            "x":10,
+            "y":200
+          }
+        ]
+      },
+      {
+        "x":Math.random() * (width - (width / 10) * 2) + (width / 10),
+        "y":Math.random() * (height - (height / 10) * 2) + (height / 10),
+        "page":[
+          {
+            "str":"ご清聴ありがとうございました",
+            "size":40,
+            "x":150,
+            "y":200
+          }
+        ]
       }
     ];
   var screen = d3.select("svg").append("g").selectAll("g").data(dataset);
@@ -87,23 +111,21 @@ window.onload = function(){
       case 37:
         if(index <= 0)break;
         index--;
-        deleteGraph();
         pageEnlargement(0);
         pageShrinking(1);
         break;
       //→
       case 39:
-        if(index > dataset.length - 2){
-          pageShrinking(0);
-          if(graph === null){
-            graph = drowGraph();
-          }
-          break;
-        }
+        if(index > dataset.length - 2)break;
         index++;
         pageEnlargement(0);
         pageShrinking(-1);
         break;
+    }
+    if(index === 3){
+      drowGraph();
+    }else{
+      deleteGraph()
     }
   });
 
