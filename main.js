@@ -1,5 +1,4 @@
 window.onload = function(){
-
   var width = 800;
   var height = 400;
   var margin = 100;
@@ -52,7 +51,7 @@ window.onload = function(){
         "y":Math.random() * (height - (height / 10) * 2) + (height / 10),
         "page":[
           {
-            "str":"↑このグラフを作る",
+            "str":"↑このグラフを作ります",
             "size":40,
             "x":10,
             "y":200
@@ -64,9 +63,21 @@ window.onload = function(){
         "y":Math.random() * (height - (height / 10) * 2) + (height / 10),
         "page":[
           {
-            "str":"この資料もD3！",
+            "str":"早速始めていきます！",
             "size":40,
             "x":200,
+            "y":200
+          }
+        ]
+      },
+      {
+        "x":Math.random() * (width - (width / 10) * 2) + (width / 10),
+        "y":Math.random() * (height - (height / 10) * 2) + (height / 10),
+        "page":[
+          {
+            "str":"この資料もD3だけで作っている！",
+            "size":40,
+            "x":100,
             "y":200
           }
         ]
@@ -101,7 +112,6 @@ window.onload = function(){
 
   var index = -1;
   $(window).keydown(function(e){
-    var okKey = false;
     switch(e.keyCode){
       //←
       case 37:
@@ -109,7 +119,7 @@ window.onload = function(){
         index--;
         pageEnlargement(0);
         pageShrinking(1);
-        okKey = true;
+        indexEvent();
         break;
       //→
       case 39:
@@ -117,25 +127,22 @@ window.onload = function(){
         index++;
         pageEnlargement(0);
         pageShrinking(-1);
-        okKey = true;
+        indexEvent();
         break;
     }
-    if(okKey &&index === 2){
+  });
+  function indexEvent() {
+    if(index === 2){
       drowGraph();
     }else{
       deleteGraph()
     }
-  });
-
-  var chart = $("#chart"),
-      aspect = chart.width() / chart.height(),
-      container = chart.parent();
-  $(window).on("resize", function() {
-      var targetWidth = container.width();
-      chart.attr("width", targetWidth);
-      chart.attr("height", Math.round(targetWidth / aspect));
-  }).trigger("resize");
-
+    if(index === 3){
+      bgmStart();
+    }else{
+      bgmStop();
+    }
+  }
   //拡大
   function pageEnlargement(offset){
     var onePage = d3.select(page[0][index + offset]);
@@ -173,7 +180,8 @@ window.onload = function(){
         style:"font-size:"+fontsize
       });
   }
-  var graphData = [100,400,300,200];
+
+  var graphData = [100,200,300,40];
   var graphHeight = 30;
   var margin = 10;
   var graph = d3.select("svg").append("g")
@@ -186,6 +194,7 @@ window.onload = function(){
         width:0
       })
       .transition()
+      .delay(1000)
       .duration(1000)
       .attr({
         x:margin,
@@ -204,4 +213,36 @@ window.onload = function(){
         })
     }
   }
+
+  var bgmFlag = false;
+  var bgm = $("#bgm")[0];
+  function bgmStart(){
+    bgm.currentTime = 0;
+    bgm.volume = 1;
+    bgm.play();
+    bgmFlag = true;
+  }
+  function bgmStop(){
+    if(!bgmFlag)return;
+    setTimeout(function(){
+      var sub = bgm.volume / 10;
+      for(var i = 0; i < 10; i++){
+        setTimeout(function(){bgm.volume -= sub},100 * i);
+      }
+      setTimeout(function(){
+        bgm.volume = 0;
+        bgm.pause();
+      },1100);
+      bgmFlag = false;
+    },0);
+  }
+
+  var chart = $("#chart"),
+      aspect = chart.width() / chart.height(),
+      container = chart.parent();
+  $(window).on("resize", function() {
+      var targetWidth = container.width();
+      chart.attr("width", targetWidth);
+      chart.attr("height", Math.round(targetWidth / aspect));
+  }).trigger("resize");
 }
