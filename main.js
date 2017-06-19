@@ -10,9 +10,9 @@ window.onload = function(){
         "y":Math.random() * (height - (height / 10) * 2) + (height / 10),
         "page":[
           {
-            "str":"応用言語成果発表",
+            "str":"【LT】D3を使った４分間Cooking！",
             "size":40,
-            "x":300,
+            "x":100,
             "y":100
           },
           {
@@ -26,24 +26,6 @@ window.onload = function(){
             "size":20,
             "x":100,
             "y":300
-          }
-        ]
-      },
-      {
-        "x":Math.random() * (width - (width / 10) * 2) + (width / 10),
-        "y":Math.random() * (height - (height / 10) * 2) + (height / 10),
-        "page":[
-          {
-            "str":"テーマは",
-            "size":40,
-            "x":300,
-            "y":100
-          },
-          {
-            "str":"D3を使った３分間Cooking！",
-            "size":40,
-            "x":150,
-            "y":200
           }
         ]
       },
@@ -138,7 +120,7 @@ window.onload = function(){
         okKey = true;
         break;
     }
-    if(okKey &&index === 3){
+    if(okKey &&index === 2){
       drowGraph();
     }else{
       deleteGraph()
